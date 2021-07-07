@@ -365,6 +365,11 @@ static int process_header(struct data_channel *data_channel) {
     case 0x64:
       data_channel->file_format = "jpeg";
       break;
+    case 0x44:  // Red line
+    case 0x48:  // Green line
+    case 0x4C:  // Blue line
+      data_channel->file_format = "rawcolor";
+      break;
     default:
       break;
   }
@@ -373,6 +378,9 @@ static int process_header(struct data_channel *data_channel) {
     case 0x40:  // RAW
     case 0x42:  // RLENGTH
     case 0x64:
+    case 0x44:  // Red line
+    case 0x48:  // Green line
+    case 0x4C:  // Blue line
       if (brother_conn_fill_buffer(data_channel->conn, 2,
                                    data_channel->item->page_finish_timeout) <
           0) {
